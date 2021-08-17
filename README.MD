@@ -9,7 +9,7 @@ If you want to provide iOS support, then you should to note to [react-native-mul
 
 Test project with all API cases you can find [here](https://github.com/kirillzyusko/react-native-wifi-p2p-example).
 
-## Changes on this Fork
+## Changes on this Fork (Bryan Munoz 08/17/21)
 
 ### receiveMessage()
 
