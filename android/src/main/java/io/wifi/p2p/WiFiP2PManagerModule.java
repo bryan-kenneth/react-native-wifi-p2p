@@ -304,8 +304,28 @@ public class WiFiP2PManagerModule extends ReactContextBaseJavaModule implements 
         getCurrentActivity().startService(serviceIntent);
     }
 
+    /* Function modified -Bryan Munoz */
     @ReactMethod
-    public void receiveMessage(final Callback callback) {
+    public void receiveMessage(final Promise promise) {
+        Log.i(TAG, "Receiving message");
+        Intent serviceIntent = new Intent(getCurrentActivity(), MessageTransferService.class);
+        serviceIntent.setAction(MessageTransferService.ACTION_RECEIVE_MESSAGE);
+        serviceIntent.putExtra(MessageTransferService.EXTRAS_GROUP_OWNER_ADDRESS, wifiP2pInfo.groupOwnerAddress.getHostAddress());
+        serviceIntent.putExtra(MessageTransferService.EXTRAS_GROUP_OWNER_PORT, 8988);
+        serviceIntent.putExtra(MessageTransferService.REQUEST_RECEIVER_EXTRA, new ResultReceiver(null) {
+            @Override
+            protected void onReceiveResult(int resultCode, Bundle resultData) {
+                if (resultCode == 0) { // successful transfer
+                    promise.resolve(mapper.mapSendMessageBundleToReactEntity(resultData));
+                } else { // error
+                    promise.reject(String.valueOf(resultCode), resultData.getString("error"));
+                }
+            }
+        });
+        getCurrentActivity().startService(serviceIntent);
+
+        /* This version only works if the tablet is group owner */
+        /*
         manager.requestConnectionInfo(channel, new WifiP2pManager.ConnectionInfoListener() {
             @Override
             public void onConnectionInfoAvailable(WifiP2pInfo info) {
@@ -317,5 +337,6 @@ public class WiFiP2PManagerModule extends ReactContextBaseJavaModule implements 
                 }
             }
         });
+        */
     }
 }

@@ -83,12 +83,17 @@ const receiveFile = (folder, fileName, forceToScanGallery = false) => new Promis
 
 const sendMessage = (message) => WiFiP2PManager.sendMessage(message);
 
+/* Function modified -Bryan Munoz */
+const receiveMessage = () => WiFiP2PManager.receiveMessage();
+
+/* This version only works if the tablet is group owner */
+/*
 const receiveMessage = () => new Promise((resolve, reject) => {
     WiFiP2PManager.receiveMessage((message) => {
         resolve(message);
     });
 });
-
+*/
 const getConnectionInfo = () => WiFiP2PManager.getConnectionInfo();
 
 const getGroupInfo = () => WiFiP2PManager.getGroupInfo();

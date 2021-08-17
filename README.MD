@@ -9,6 +9,19 @@ If you want to provide iOS support, then you should to note to [react-native-mul
 
 Test project with all API cases you can find [here](https://github.com/kirillzyusko/react-native-wifi-p2p-example).
 
+## Changes on this Fork
+
+### receiveMessage()
+
+This function originally assumed group ownership (waited for a connection rather than connecting). It has been modified to connect to the group owner and capture an incomming message.
+
+```javascript
+receiveMessage()
+    .then(result => console.log(`Received message: ${result.message}`))
+```
+
+The usage has slightly changed, disregard the previous documentation for it below.
+
 ## React Native Compatibility
 To use this library you need to ensure you match up with the correct version of React Native you are using.
 
