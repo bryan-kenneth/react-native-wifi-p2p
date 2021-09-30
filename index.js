@@ -19,12 +19,15 @@ const startDiscoveringPeers = () => new Promise((resolve, reject) => {
     })
 });
 
+let emitter
+
 const subscribeOnEvent = (event, callback) => {
-    DeviceEventEmitter.addListener(`${MODULE_NAME}:${event}`, callback);
+    emitter = DeviceEventEmitter.addListener(`${MODULE_NAME}:${event}`, callback);
 };
 
 const unsubscribeFromEvent = (event, callback) => {
-    DeviceEventEmitter.removeListener(`${MODULE_NAME}:${event}`, callback);
+    //DeviceEventEmitter.removeListener(`${MODULE_NAME}:${event}`, callback);
+    if (emitter) emitter.remove()
 };
 
 const subscribeOnThisDeviceChanged = (callback) => subscribeOnEvent(THIS_DEVICE_CHANGED_ACTION, callback);
